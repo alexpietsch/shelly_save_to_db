@@ -35,6 +35,7 @@ add_to_db(shelly_<NUMBER>_ip, &shelly_<NUMBER>_table, &pool)
 ```
 
 ## Build and run
+
 ### Build from source
 
 To build from source, run:
@@ -51,9 +52,9 @@ DB_PASSWORD='DB_PASSWORD' \
 DB_USER='DB_USERNAME' \
 SAVE_INTERVAL='SAVE_INTERVAL_IN_MS' \
 SHELLY_ONE='SHELLY_IP|DB_TABLE_NAME' \
-SHELLY_THREE='SHELLY_IP|DB_TABLE_NAME' \
 SHELLY_TWO='SHELLY_IP|DB_TABLE_NAME' \
-./target/release/shelly-save-to-db 
+SHELLY_THREE='SHELLY_IP|DB_TABLE_NAME' \
+./target/release/shelly-save-to-db
 ```
 
 ### Docker
@@ -61,7 +62,7 @@ SHELLY_TWO='SHELLY_IP|DB_TABLE_NAME' \
 Build the Docker image with:
 
 ```shell
-docker build -t shelly-save-to-db:0.1.0 .
+docker build -t shelly-save-to-db:latest .
 ```
 
 Then, run it with:
@@ -73,9 +74,25 @@ docker run \
     -e DB_USER='DB_USERNAME' \
     -e SAVE_INTERVAL='SAVE_INTERVAL_IN_MS' \
     -e SHELLY_ONE='SHELLY_IP|DB_TABLE_NAME' \
-    -e SHELLY_THREE='SHELLY_IP|DB_TABLE_NAME' \
     -e SHELLY_TWO='SHELLY_IP|DB_TABLE_NAME' \
+    -e SHELLY_THREE='SHELLY_IP|DB_TABLE_NAME' \
 shelly-save-to-db:latest
 ```
 
+Or Docker compose:
 
+```dockerfile
+name: shelly-save-to-db
+services:
+    shelly-save-to-db:
+        environment:
+            - DB_HOST='DB_IP'
+            - DB_PASSWORD='DB_PASSWORD'
+            - DB_USER='DB_USERNAME'
+            - SAVE_INTERVAL='SAVE_INTERVAL_IN_MS'
+            - SHELLY_ONE='SHELLY_IP|DB_TABLE_NAME'
+            - SHELLY_TWO='SHELLY_IP|DB_TABLE_NAME'
+            - SHELLY_THREE='SHELLY_IP|DB_TABLE_NAME'
+        container_name: shelly-save-to-db
+        image: shelly-save-to-db:latest
+```
