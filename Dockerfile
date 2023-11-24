@@ -1,8 +1,13 @@
-FROM rust:1.71.0
+# Build
+FROM rust:1.71.0 as builder
 LABEL authors="mail@alexpts.dev"
 
-COPY ./ ./
-
+WORKDIR /app
+COPY . /app
 RUN cargo build --release
 
-CMD ["./target/release/shelly-save-to-db"]
+# Run
+FROM gcr.io/distroless/cc
+COPY --from=builder /app/target/release/shelly-save-to-db /
+
+CMD ["./shelly-save-to-db"]
